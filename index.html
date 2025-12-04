@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aditya Bhongade</title>
+    <title>Your Name - Academic Portfolio</title>
     <style>
         * {
             margin: 0;
@@ -109,6 +109,18 @@
             color: white;
         }
 
+        .publication-link {
+            display: inline-block;
+            margin: 0.5rem 0;
+            color: #901A1E;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .publication-link:hover {
+            text-decoration: underline;
+        }
+
         .authors, .venue, .date, .talk-event {
             color: #7f8c8d;
             font-style: italic;
@@ -181,13 +193,17 @@
     </nav>
 
     <section id="bio">
-        <h1>Aditya Bhongade</h1>
-        <p><strong>Undergraduate student</strong> | Department of Electronics and Telecommunication Engineering, <br>Yeshwantrao Chavan College of Engineering, <br>Nagpur, India</p>
+        <h1>Your Name</h1>
+        <p><strong>Position</strong> | Institution/Organization</p>
         <p>
-            I research in Deep Learning, Computer Vision and Medical Imaging.
+            Welcome to my academic portfolio. I am a researcher specializing in [Your Field]. 
+            My work focuses on [Brief description of research interests]. I am passionate about 
+            [Key areas of interest] and have contributed to [Brief mention of impact or achievements].
         </p>
         <p>
-            Currently, I am working on multimodal medical models.
+            Currently, I am working on [Current research or position]. My research has been published 
+            in leading journals and conferences, and I actively collaborate with researchers across 
+            multiple institutions.
         </p>
     </section>
 
@@ -210,24 +226,38 @@
         <h2>Education</h2>
         
         <div class="education-item">
-            <h3>Bachelor of Technology in Electronics and Telecommunication Engineering</h3>
-            <div class="date">Yeshwantrao Chavan College of Engineering, 2026</div>
-            <p>Pursuing</p>
+            <h3>Ph.D. in [Field]</h3>
+            <div class="date">University Name, Year</div>
+            <p>Dissertation: "Title of Your Dissertation"</p>
+            <p>Advisor: Professor Name</p>
+        </div>
+
+        <div class="education-item">
+            <h3>Master of Science in [Field]</h3>
+            <div class="date">University Name, Year</div>
+            <p>Thesis: "Title of Your Thesis"</p>
+        </div>
+
+        <div class="education-item">
+            <h3>Bachelor of Science in [Field]</h3>
+            <div class="date">University Name, Year</div>
+            <p>Graduated with Honors</p>
         </div>
     </section>
 
     <section id="contact">
         <h2>Contact</h2>
         <div class="contact-info">
-            <p><strong>Email:</strong> <a href="mailto:aabhongade@ycce.edu">aabhongade@ycce.edu</a></p>
-            <!-- <p><strong>Office:</strong> Building Name, Room Number, Institution</p> -->
-            <p><strong>GitHub:</strong> <a href="https://github.com/adityabhongade" target="_blank">github.com/adityabhongade</a></p>
-            <p><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/adityabhongade" target="_blank">linkedin.com/in/adityabhongade</a></p>
-            <p><strong>Google Scholar:</strong> <a href="https://scholar.google.com/citations?user=dhgLCL8AAAAJ&hl" target="_blank">View Profile</a></p>
+            <p><strong>Email:</strong> <a href="mailto:your.email@institution.edu">your.email@institution.edu</a></p>
+            <p><strong>Office:</strong> Building Name, Room Number, Institution</p>
+            <p><strong>GitHub:</strong> <a href="https://github.com/yourusername" target="_blank">github.com/yourusername</a></p>
+            <p><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/yourprofile" target="_blank">linkedin.com/in/yourprofile</a></p>
+            <p><strong>Google Scholar:</strong> <a href="https://scholar.google.com/citations?user=YOURID" target="_blank">View Profile</a></p>
         </div>
     </section>
 
     <script>
+        // Load and parse YAML files
         async function loadYAML(filename) {
             try {
                 const response = await fetch(filename);
@@ -254,17 +284,20 @@
                 const div = document.createElement('div');
                 div.className = 'publication';
                 const tagHTML = pub.tag ? `<span class="publication-tag">${pub.tag}</span><br>` : '';
+                const linkHTML = pub.link ? `<a href="${pub.link}" class="publication-link" target="_blank">View Paper →</a><br>` : '';
                 div.innerHTML = `
                     ${tagHTML}
                     <div class="publication-title">${pub.title}</div>
                     <div class="authors">${pub.authors}</div>
                     <div class="venue">${pub.venue}</div>
+                    ${linkHTML}
                     <p>${pub.description}</p>
                 `;
                 publicationsList.appendChild(div);
             });
         }
 
+        // Render projects
         async function loadProjects() {
             const projects = await loadYAML('projects.yaml');
             const projectsList = document.getElementById('projects-list');
@@ -312,12 +345,14 @@
             });
         }
 
+        // Load data when page loads
         window.addEventListener('DOMContentLoaded', () => {
             loadPublications();
             loadProjects();
             loadTalks();
         });
 
+        // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
