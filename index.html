@@ -92,10 +92,53 @@
             border-left: 4px solid #901A1E;
         }
 
+        .talk {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-left: 4px solid #901A1E;
+        }
+
         .publication-title, .project-title {
             font-weight: bold;
             color: #2c3e50;
             font-size: 1.1rem;
+        }
+
+        .talk-title {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .talk-event {
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+
+        .talk-link {
+            display: inline-block;
+            margin: 0.5rem 0;
+            color: #901A1E;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .talk-link:hover {
+            text-decoration: underline;
+        }
+
+        .publication-tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            margin: 0.5rem 0;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 4px;
+            background: #901A1E;
+            color: white;
         }
 
         .authors, .venue, .date {
@@ -151,6 +194,7 @@
             <li><a href="#bio">Bio</a></li>
             <li><a href="#publications">Publications</a></li>
             <li><a href="#projects">Projects</a></li>
+            <li><a href="#talks">Talks</a></li>
             <li><a href="#education">Education</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
@@ -179,6 +223,11 @@
     <section id="projects">
         <h2>Projects</h2>
         <div id="projects-list"><p class="loading">Loading projects...</p></div>
+    </section>
+
+    <section id="talks">
+        <h2>Talks</h2>
+        <div id="talks-list"><p class="loading">Loading talks...</p></div>
     </section>
 
     <section id="education">
@@ -242,7 +291,9 @@
             publications.forEach(pub => {
                 const div = document.createElement('div');
                 div.className = 'publication';
+                const tagHTML = pub.tag ? `<span class="publication-tag">${pub.tag}</span><br>` : '';
                 div.innerHTML = `
+                    ${tagHTML}
                     <div class="publication-title">${pub.title}</div>
                     <div class="authors">${pub.authors}</div>
                     <div class="venue">${pub.venue}</div>
@@ -275,10 +326,36 @@
             });
         }
 
+        // Render talks
+        async function loadTalks() {
+            const talks = await loadYAML('talks.yaml');
+            const talksList = document.getElementById('talks-list');
+            
+            if (!talks || talks.length === 0) {
+                talksList.innerHTML = '<p class="loading">No talks found.</p>';
+                return;
+            }
+
+            talksList.innerHTML = '';
+            talks.forEach(talk => {
+                const div = document.createElement('div');
+                div.className = 'talk';
+                const linkHTML = talk.link ? `<a href="${talk.link}" class="talk-link" target="_blank">View Presentation →</a>` : '';
+                div.innerHTML = `
+                    <div class="talk-title">${talk.title}</div>
+                    <div class="talk-event">${talk.event}</div>
+                    ${linkHTML}
+                    <p>${talk.description}</p>
+                `;
+                talksList.appendChild(div);
+            });
+        }
+
         // Load data when page loads
         window.addEventListener('DOMContentLoaded', () => {
             loadPublications();
             loadProjects();
+            loadTalks();
         });
 
         // Smooth scrolling for navigation links
