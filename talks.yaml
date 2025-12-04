@@ -1,0 +1,14 @@
+- title: "Machine Learning in Healthcare: Recent Advances"
+  event: "AI Conference 2024, San Francisco, CA"
+  link: "https://slides.com/yourpresentation"
+  description: "Presented recent research on applying machine learning techniques to medical diagnosis. Discussed challenges in data privacy and model interpretability in clinical settings."
+  
+- title: "Building Scalable Research Infrastructure"
+  event: "University Research Symposium, March 2024"
+  link: "https://docs.google.com/presentation/d/your-presentation-id"
+  description: "Keynote talk on designing and implementing scalable computing infrastructure for large-scale research projects. Shared lessons learned from multi-institutional collaborations."
+  
+- title: "Introduction to Deep Learning"
+  event: "Workshop Series, Department Seminar, 2023"
+  link: ""
+  description: "Educational workshop for graduate students covering fundamental concepts in deep learning, including neural network architectures, training techniques, and practical applications."
