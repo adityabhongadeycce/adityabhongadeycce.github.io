@@ -120,6 +120,11 @@
             text-decoration: underline;
         }
 
+        .loading {
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
         @media (max-width: 768px) {
             nav ul {
                 gap: 1rem;
@@ -168,12 +173,12 @@
 
     <section id="publications">
         <h2>Publications</h2>
-        <div id="publications-list"></div>
+        <div id="publications-list"><p class="loading">Loading publications...</p></div>
     </section>
 
     <section id="projects">
         <h2>Projects</h2>
-        <div id="projects-list"></div>
+        <div id="projects-list"><p class="loading">Loading projects...</p></div>
     </section>
 
     <section id="education">
@@ -210,67 +215,70 @@
         </div>
     </section>
 
-    <script id="data-yaml" type="application/x-yaml">
-publications:
-  - title: "Title of Your Research Paper"
-    authors: "Author 1, Your Name, Author 3"
-    venue: "Conference/Journal Name, 2024"
-    description: "Brief description of the paper's contribution and key findings."
-    
-  - title: "Another Important Publication"
-    authors: "Your Name, Co-author Name"
-    venue: "Conference/Journal Name, 2023"
-    description: "Summary of the research and its impact on the field."
-    
-  - title: "Third Publication Title"
-    authors: "Co-author, Your Name, Another Co-author"
-    venue: "Conference/Journal Name, 2023"
-    description: "Description of research methodology and outcomes."
-
-projects:
-  - title: "Research Project Name"
-    duration: "January 2023 - December 2024"
-    description: "Detailed description of the project objectives, methodology, and outcomes. Explain the significance of this work and any collaborative aspects."
-    
-  - title: "Industry/Academic Collaboration"
-    duration: "June 2022 - Present"
-    description: "Overview of collaborative research with industry partners or other academic institutions. Highlight key innovations and practical applications."
-    
-  - title: "Open Source Contribution"
-    duration: "March 2021 - August 2022"
-    description: "Description of contributions to open source projects or development of research tools that benefit the broader academic community."
-    </script>
-
     <script>
-        // Parse YAML data
-        const yamlContent = document.getElementById('data-yaml').textContent;
-        const data = jsyaml.load(yamlContent);
+        // Load and parse YAML files
+        async function loadYAML(filename) {
+            try {
+                const response = await fetch(filename);
+                const text = await response.text();
+                return jsyaml.load(text);
+            } catch (error) {
+                console.error(`Error loading ${filename}:`, error);
+                return null;
+            }
+        }
 
         // Render publications
-        const publicationsList = document.getElementById('publications-list');
-        data.publications.forEach(pub => {
-            const div = document.createElement('div');
-            div.className = 'publication';
-            div.innerHTML = `
-                <div class="publication-title">${pub.title}</div>
-                <div class="authors">${pub.authors}</div>
-                <div class="venue">${pub.venue}</div>
-                <p>${pub.description}</p>
-            `;
-            publicationsList.appendChild(div);
-        });
+        async function loadPublications() {
+            const publications = await loadYAML('publications.yaml');
+            const publicationsList = document.getElementById('publications-list');
+            
+            if (!publications || publications.length === 0) {
+                publicationsList.innerHTML = '<p class="loading">No publications found.</p>';
+                return;
+            }
+
+            publicationsList.innerHTML = '';
+            publications.forEach(pub => {
+                const div = document.createElement('div');
+                div.className = 'publication';
+                div.innerHTML = `
+                    <div class="publication-title">${pub.title}</div>
+                    <div class="authors">${pub.authors}</div>
+                    <div class="venue">${pub.venue}</div>
+                    <p>${pub.description}</p>
+                `;
+                publicationsList.appendChild(div);
+            });
+        }
 
         // Render projects
-        const projectsList = document.getElementById('projects-list');
-        data.projects.forEach(proj => {
-            const div = document.createElement('div');
-            div.className = 'project';
-            div.innerHTML = `
-                <div class="project-title">${proj.title}</div>
-                <div class="date">Duration: ${proj.duration}</div>
-                <p>${proj.description}</p>
-            `;
-            projectsList.appendChild(div);
+        async function loadProjects() {
+            const projects = await loadYAML('projects.yaml');
+            const projectsList = document.getElementById('projects-list');
+            
+            if (!projects || projects.length === 0) {
+                projectsList.innerHTML = '<p class="loading">No projects found.</p>';
+                return;
+            }
+
+            projectsList.innerHTML = '';
+            projects.forEach(proj => {
+                const div = document.createElement('div');
+                div.className = 'project';
+                div.innerHTML = `
+                    <div class="project-title">${proj.title}</div>
+                    <div class="date">Duration: ${proj.duration}</div>
+                    <p>${proj.description}</p>
+                `;
+                projectsList.appendChild(div);
+            });
+        }
+
+        // Load data when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            loadPublications();
+            loadProjects();
         });
 
         // Smooth scrolling for navigation links
