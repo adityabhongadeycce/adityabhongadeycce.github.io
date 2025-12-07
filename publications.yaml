@@ -5,12 +5,12 @@
   link: "https://arxiv.org/abs/your-paper-id"
   description: "Brief description of the paper's contribution and key findings."
   
-- title: "Another Important Publication"
-  authors: "Aditya Bhongade, Co-author Name"
-  venue: "Journal of Computer Science, 2023"
+- title: "Efficient Explainable Models for Alzheimer’s Disease Classification with Feature Selection and Data Balancing Approach Using Ensemble Learning"
+  authors: "Yogita Dubey, Aditya Bhongade, Prachi Palsodkar, Punit Fulzele"
+  venue: "Diagnostics, 2024"
   tag: "Journal Article"
-  link: "https://doi.org/10.1234/journal.2023.12345"
-  description: "Summary of the research and its impact on the field."
+  link: "https://doi.org/10.3390/diagnostics14242770"
+  description: ""
   
 - title: "Third Publication Title"
   authors: "Co-author, Aditya Bhongade, Another Co-author"
